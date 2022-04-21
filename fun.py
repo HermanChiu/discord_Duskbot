@@ -1,5 +1,4 @@
 import asyncio
-
 import discord
 import os
 import random
@@ -9,7 +8,6 @@ import time
 import config
 from discord.ext import commands, tasks
 from io import BytesIO
-
 
 # from dotenv import load_dotenv
 
@@ -266,10 +264,7 @@ class Fun(commands.Cog):
     async def userinfo(self, ctx, member: commands.MemberConverter = None):
         if member == None:
             member = ctx.message.author
-        # print(member.status)
         mem_roles = [role.mention for role in member.roles]
-        # print (mem_roles)
-        # print(member.activity)
         embed = discord.Embed(title=f"__**User: {member.name} \nDiscriminator: #{member.discriminator}**__",
                               description=f"**Some info on this user! :smiling_face_with_3_hearts: ** ",
                               colour=discord.Colour.from_rgb(218, 186, 242))

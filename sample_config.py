@@ -11,3 +11,4 @@ JOINCHID = None  #insert it when needed/when i will use
 LOGCHID = None
 SERVER_IMG = None
 SERVER_IMG2 = None
+# add more config images and stuff

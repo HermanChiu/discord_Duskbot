@@ -1,15 +1,6 @@
-import asyncio
-import math
-
 import discord
 import os
 import random
-import json
-import requests
-import time
-import config
-import numpy
-import matplotlib
 import matplotlib.pyplot as plt
 
 from discord.ext import commands, tasks

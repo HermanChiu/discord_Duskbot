@@ -1,9 +1,9 @@
 import discord
-import os
-import random
-import json
-import requests
-import time
+# import os
+# import random
+# import json
+# import requests
+# import time
 import config
 
 from discord.ext import commands, tasks
