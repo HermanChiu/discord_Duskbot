@@ -1,7 +1,6 @@
 # discord_Duskbot
 Discord bot using discord.py 
 
- This is a Discord bot, not a bot to run flag race for you. Maybe try getting good instead if thats what you came here for.
 
 ## Requirements
 * Python 3
