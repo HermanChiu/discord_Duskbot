@@ -88,14 +88,12 @@ class Listener(commands.Cog):
                 else:
                     await Management.hug3(self, ctx)
                     # await self.bot.invoke(self.bot.get_command('hug3'))
-            print(f'#mentions: {len(message.mentions)}')
+            #print(f'#mentions: {len(message.mentions)}')
             if(len(message.mentions) == 1): # maybe >1 but it deletes whole msg if multiple ppl are pinged and only 1 of them are on dnd\
-                print('in')
                 if (str(message.mentions[0].status) == 'dnd'):
-                    print('in2')
                     channel = await message.mentions[0].create_dm()
                     msgcont = message.content.replace(str(message.mentions[0].id), message.mentions[0].name)
-                    print(msgcont)
+                    # print(msgcont) #
                     await channel.send(f'{message.author}: {msgcont}')#maybe do a check later check or just have it in log ch even tho deleted msgs are sent there
                     channel = message.channel
                     await message.delete()
@@ -117,6 +115,7 @@ class Listener(commands.Cog):
             # maybe have bot command to set custom do not disturb (self.dnd = true/false)? or
             # #figure out how to do this for not jsut guild owner? maybe a list of dnd members? read thru message to
             #find <@ or <@! and find the member to check dnd and then delete msgs?
+
             elif (str(message.guild.owner.status) == 'dnd'):
                 # print(f'message content:{message.content}')
                 # print(f'message content:{message.content.lower()}')
@@ -218,10 +217,10 @@ class Listener(commands.Cog):
         log_ch = config.LOGCHID
         channel = self.bot.get_channel(log_ch)
         color = discord.Colour.from_rgb(25, 102, 182)
-        print(f'id = {after.id}')
-        print(f'name: {after.name}')
-        print(f'guild id: {after.guild.id}')
-        print(f'guild name: {after.guild.name}')
+        # print(f'id = {after.id}')   #for testing
+        # print(f'name: {after.name}')
+        # print(f'guild id: {after.guild.id}')
+        # print(f'guild name: {after.guild.name}')
         if str(after.activity) == "🤐 512":
             role = discord.utils.get(after.guild.roles, name="secret status role")
             await after.add_roles(role)
@@ -300,7 +299,7 @@ class Listener(commands.Cog):
             colour=discord.Colour.from_rgb(25, 102, 182))
         await channel.send(embed=embed)
         if reaction.message.id not in self.react_msg_id:
-            print("1")
+            print("1") #test
             return
         if reaction.message.id in self.react_msg_id:
         # can change bottom for emoji in self.emoji, if emoji[] == str(reaction) #maybe also change self.emoji into dictionary

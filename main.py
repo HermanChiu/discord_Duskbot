@@ -17,7 +17,6 @@ intents = discord.Intents.all()
 # intents.members = True
 bot = commands.Bot(command_prefix="!=", guild_subscriptions=True, intents=intents, owner_ids= config.OWNER_ID)
 
-
 @bot.event
 async def on_ready():
     print('Bot: {0.user} is ready'.format(bot))

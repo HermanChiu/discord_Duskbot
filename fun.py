@@ -217,18 +217,15 @@ class Fun(commands.Cog):
         # try stuff e,g from_rgb(r,g,b)/.from_rgb(55, 72, 162) / .random(seed) / colour = 3748a2
         # test set_(feature),footer, image,thumbnail,author, field, and colour and the order of each added
         embed.set_footer(text=f"Guild ID : {ctx.guild.id} | Created at : {ctx.guild.created_at.date()}",
-                         icon_url="https://media.discordapp.net/attachments/354861915291516938/889963272504238130"
-                                  "/841617569370603541.png")
+                         icon_url=config.FOOTER_IMG)
         embed.set_image(
             url=config.SERVER_IMG)  # same image but
         # https://i.pximg.net/img-master/img/2021/08/09/00/00/02/91828089_p0_master1200.jpg doesnt work prob bc no
         # access to site
         embed.set_thumbnail(url=ctx.guild.icon_url)
         embed.set_author(name="author",
-                         url="https://cdn.discordapp.com/attachments/354861915291516938/890863132560478208"
-                             "/64975970_p0_master1200.jpg",
-                         icon_url="https://cdn.discordapp.com/attachments/354861915291516938/890863176697147402"
-                                  "/838261752214847488.png")  # url here links to a website , icon will be scaled
+                         url=config.AUTHOR_IMG,
+                         icon_url=config.AUTHOR_ICON)  # url here links to a website , icon will be scaled
         # down even if using big image?
         # test set_field_at and add_field
         # maybe test if there is a way to tag or list in fields the server owner is __ or admin/ mods are
@@ -271,12 +268,12 @@ class Fun(commands.Cog):
         # try stuff e,g from_rgb(r,g,b)/.from_rgb(55, 72, 162) / .random(seed) / colour = 3748a2
         # test set_(feature),footer, image,thumbnail,author, field, and colour and the order of each added
         embed.set_footer(text=f"Created account on: {member.created_at.date()}",
-                         icon_url="https://cdn.discordapp.com/emojis/855296430767734824.png?size=96")
+                         icon_url=config.FOOTER_ICON2)
         embed.set_thumbnail(url=member.avatar_url)
 
         embed.set_author(name="author",
-                         url="https://cdn.discordapp.com/attachments/354861915291516938/890863132560478208/64975970_p0_master1200.jpg",
-                         icon_url="https://cdn.discordapp.com/attachments/354861915291516938/890863176697147402/838261752214847488.png")
+                         url=config.AUTHOR_IMG,
+                         icon_url=config.AUTHOR_ICON)
         embed.add_field(name="ID", value=f"{member.id}", inline=True)
         embed.add_field(name="Nickname", value=f"{member.nick}", inline=True)
         embed.add_field(name="Presence", value=f"{member.status}", inline=True)
@@ -319,7 +316,7 @@ class Fun(commands.Cog):
         embed = discord.Embed(title=f"__**Spotify Info for User: {member.name}#{member.discriminator}**__",
                               colour=member.activities[sindex].color)
         embed.set_footer(text=f"Member ID: {member.id}",
-                         icon_url="https://cdn.discordapp.com/emojis/833568280975376404.gif?size=96")
+                         icon_url=config.FOOTER_ICON)
         embed.set_thumbnail(url=member.activities[sindex].album_cover_url)
         embed.add_field(name="Album & Song",
                         value=f"__**Album:**__ {member.activities[sindex].album}\n __**Song:**__ {member.activities[sindex].title}",
