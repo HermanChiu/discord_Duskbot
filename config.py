@@ -1,6 +1,6 @@
 
 ## Discord Bot Token
-TOKEN = 'ODg1MzI4Mjc2NzA3NDkxODUw.YTlcNQ.RsyXsa0Z3U9OEtmVUERe_p4tOgo'
+TOKEN = 'ODg1MzI4Mjc2NzA3NDkxODUw.YTlcNQ.YPSDcuAjA1cqcbGHpomC338Kmww'
 
 ## Discord ID of the user which can manage the bot
 ADMIN = 249016489628139520
