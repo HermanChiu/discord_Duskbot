@@ -184,7 +184,6 @@ class Listener(commands.Cog):
         log_ch = config.LOGCHID
         channel = self.bot.get_channel(log_ch)
         await channel.send(embed=embed)
-        # : discord.member part is optional?
 
     @commands.Cog.listener()
     async def on_member_join(self, member: commands):
@@ -221,6 +220,8 @@ class Listener(commands.Cog):
         # print(f'name: {after.name}')
         # print(f'guild id: {after.guild.id}')
         # print(f'guild name: {after.guild.name}')
+
+        #for fun testing
         if str(after.activity) == "🤐 512":
             role = discord.utils.get(after.guild.roles, name="secret status role")
             await after.add_roles(role)
@@ -230,6 +231,8 @@ class Listener(commands.Cog):
                 role = discord.utils.get(after.guild.roles, name="secret status role")
                 await after.remove_roles(role)
                 descr = f"{after.mention}'s secret role got removed \n "
+        ##
+
         elif str(before.status) == "online":
             if str(after.status) == "idle":
                 role = discord.utils.get(after.guild.roles, name="afkers")
@@ -287,7 +290,6 @@ class Listener(commands.Cog):
 
     @commands.Cog.listener()
     async def on_reaction_add(self, reaction, user):
-        # print(reaction.emoji)
         if user.bot:
             return
         log_ch = config.LOGCHID
@@ -299,7 +301,6 @@ class Listener(commands.Cog):
             colour=discord.Colour.from_rgb(25, 102, 182))
         await channel.send(embed=embed)
         if reaction.message.id not in self.react_msg_id:
-            print("1") #test
             return
         if reaction.message.id in self.react_msg_id:
         # can change bottom for emoji in self.emoji, if emoji[] == str(reaction) #maybe also change self.emoji into dictionary

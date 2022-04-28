@@ -32,7 +32,4 @@ bot.load_extension("management")
 bot.load_extension("listener")
 bot.load_extension("randomwalk")
 
-
-# client.load_extension("management")
-
 bot.run(config.TOKEN)

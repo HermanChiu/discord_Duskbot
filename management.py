@@ -37,9 +37,6 @@ class Management(commands.Cog):
             f' ```\n{amount} messages deleted \nThis message will automatically delete in 10 seconds ```',
             delete_after=10
         )
-        # not needed bc im dumb: https://discordpy.readthedocs.io/en/latest/api.html#discord.abc.Messageable.send
-        # time.sleep(10)
-        # await ctx.channel.purge(limit=1)
 
     @commands.command()
     @commands.has_permissions(kick_members=True)
@@ -104,7 +101,6 @@ class Management(commands.Cog):
     async def flagplaylist(self, ctx):
         await ctx.channel.send('https://www.youtube.com/playlist?list=PLrUjznJcKqzFQ5w6WNs0Ikq-z78XIQp69')
 
-    # maybe do a react for role bot using all things we learned before and use wait for command
     @commands.command()
     async def createbaseroles(self, ctx):
         guildroles = [role.name for role in ctx.guild.roles]
