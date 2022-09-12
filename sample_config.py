@@ -4,8 +4,8 @@
 TOKEN = 'insert bot token'
 
 ## Discord ID of the user which can manage the bot
-ADMIN = # enter admin id
-OWNER_ID = #{owner1, owner2, etc} #can have multiple owners
+ADMIN = None# enter admin id
+OWNER_ID = None#{owner1, owner2, etc} #can have multiple owners
 ## Channel ID for logging nad joins
 JOINCHID = None  #insert it when needed/when i will use
 LOGCHID = None
