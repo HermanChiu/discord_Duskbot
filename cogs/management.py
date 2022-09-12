@@ -37,6 +37,9 @@ class Management(commands.Cog):
             f' ```\n{amount} messages deleted \nThis message will automatically delete in 10 seconds ```',
             delete_after=10
         )
+        # not needed bc im dumb: https://discordpy.readthedocs.io/en/latest/api.html#discord.abc.Messageable.send
+        # time.sleep(10)
+        # await ctx.channel.purge(limit=1)
 
     @commands.command()
     @commands.has_permissions(kick_members=True)
@@ -101,6 +104,7 @@ class Management(commands.Cog):
     async def flagplaylist(self, ctx):
         await ctx.channel.send('https://www.youtube.com/playlist?list=PLrUjznJcKqzFQ5w6WNs0Ikq-z78XIQp69')
 
+    # maybe do a react for role bot using all things we learned before and use wait for command
     @commands.command()
     async def createbaseroles(self, ctx):
         guildroles = [role.name for role in ctx.guild.roles]
@@ -279,14 +283,6 @@ class Management(commands.Cog):
         else:
             await ctx.channel.send(f'{ctx.author.mention} gave you a hug {member.mention}')
 
-    # cant use all commands only basic ones without mutliple param at least ones with convertors and custom classes
-    # since args is just considered a string
-    @commands.command(aliases=['t'])
-    async def test(self, ctx, command, *, arg=None):
-        print(ctx)
-        print(command)
-        print(arg)
-        await ctx.invoke(self.bot.get_command(f'{command}'))
 
     @commands.command(aliases=['ainfo'])
     async def attachmentinfo(self, ctx):
@@ -304,13 +300,8 @@ class Management(commands.Cog):
         else:
             await ctx.send("No attachment found")
 
-    # ^^^^ try to make roles special? with perms?? like with if statements and do perms
+    ### add optional message id to find attachments info of said message
 
-    # work on react role like above using these roles?(set roles to a reaction like before
-
-    # @bot.command(aliases= ['h']) #help command does not need to be implemented
-    # async def help(ctx):
-    #  await ctx.channel.send('__**Current commands:**__ \n setgame, hello, cookie, 8ball(magik8/m8), strikethrough(st), ping, purge(prune/p), bigtext(bt)')
 
     # dont ever use this ever especially if you change line 27 to offline(breaks replit maybe comp also)
     # @bot.command()
@@ -340,6 +331,15 @@ class Management(commands.Cog):
     # async def getguild(ctx):
     #    id = ctx.message.guild.id
 
+    # cant use all commands only basic ones without mutliple param at least ones with convertors and custom classes
+    # since args is just considered a string
+    @commands.command(aliases=['t'])
+    async def test(self, ctx, command, *, arg=None):
+        print(ctx)
+        print(command)
+        print(arg)
+        await ctx.invoke(self.bot.get_command(f'{command}'))
 
-def setup(bot):
-    bot.add_cog(Management(bot))
+
+async def setup(bot):
+    await bot.add_cog(Management(bot))

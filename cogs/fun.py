@@ -382,5 +382,5 @@ class Fun(commands.Cog):
             await ctx.channel.send(f'{ctx.author.mention} gave {member.mention} a hug')
 
 
-def setup(bot):
-    bot.add_cog(Fun(bot))
+async def setup(bot):
+    await bot.add_cog(Fun(bot))
