@@ -1,3 +1,6 @@
-# testing
+# confidential
 config.py
+
+# pycache
 ./cogs/__pycache__
+__pycache__/

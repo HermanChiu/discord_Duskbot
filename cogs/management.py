@@ -1,13 +1,8 @@
 import asyncio
 import discord
-import os
 import random
-import numpy
-import json
-import requests
-import time
 import config
-
+import datetime
 from discord.ext import commands, tasks
 from discord.ext.commands import MissingPermissions
 from io import BytesIO
@@ -302,6 +297,142 @@ class Management(commands.Cog):
 
     ### add optional message id to find attachments info of said message
 
+    @commands.command(aliases=['ginfo'])
+    @commands.cooldown(1, 20, commands.BucketType.user)
+    async def guildinfo(self, ctx):
+        admin_roles = [role for role in ctx.guild.roles if role.permissions.administrator]
+        admins = []
+        for role in admin_roles:
+            for member in role.members:
+                if not member.bot:
+                    admins.append(member.mention)  # can just be member.name to avoid pings
+        admins = list(dict.fromkeys(admins))
+        admins = '\n'.join([elem for elem in admins])
+        num_mem = ctx.guild.member_count
+        bot_list = [member.mention for member in ctx.guild.members if member.bot]
+        embed = discord.Embed(title=f"__**Welcome to {ctx.guild.name}**__",
+                              description=f"**Here's some stats about the server!!! :eyes:** ",
+                              colour=discord.Colour.from_rgb(55, 72, 162))
+        embed.set_footer(text=f"Guild ID : {ctx.guild.id} | Created at : {ctx.guild.created_at.date()}",
+                         icon_url=config.FOOTER_IMG)
+        embed.set_image(url=config.SERVER_IMG)  # same image but
+        # https://i.pximg.net/img-master/img/2021/08/09/00/00/02/91828089_p0_master1200.jpg doesnt work prob bc no
+        # access to site
+        embed.set_thumbnail(url=ctx.guild.icon)
+        embed.set_author(name="author",
+                         url=config.AUTHOR_IMG,
+                         icon_url=config.AUTHOR_ICON)  # url here links to a website , icon will be scaled
+        # down even if using big image?
+        # test set_field_at and add_field
+        # maybe test if there is a way to tag or list in fields the server owner is __ or admin/ mods are
+        # maybe use fields for, for this contact __ for __  contact __
+        embed.add_field(name="__Server owner__", value=f"{self.bot.get_user(ctx.guild.owner.id)}",
+                        inline=False)  # {self.bot.get_user(ctx.guild.owner.id).mention}
+        if not admins:  # if empty
+            embed.add_field(name=" Admins", value=f"None", inline=True)
+        else:  # if not empty
+            embed.add_field(name=" Admins", value=f"{admins}", inline=True)
+        embed.add_field(name="Members",
+                        value=f"Total: {num_mem}\n Humans: {num_mem - len(bot_list)}\n Bots: {len(bot_list)}",
+                        inline=True)
+        embed.add_field(name=f"{len(bot_list)} Bots", value='\n'.join([elem for elem in bot_list]),
+                        inline=True)  # f"{len(bot_list)} Bots"
+        embed.add_field(name=" Channels",
+                        value=f"Text Channels: {len(ctx.guild.text_channels)} \n Voice Channel: {len(ctx.guild.voice_channels)} ",
+                        inline=False)
+        # ^showing order matters only 3 fields per row shown? guild_owner = self.bot.get_user(ctx.guild.owner.id)
+        # await ctx.channel.send(f'{guild_owner}') print (discord.bot.Guild.owner) was going to do this
+        # https://stackoverflow.com/questions/65089714/how-do-i-list-users-with-roles-that-have-administrator
+        # -privileges-in-an-embed-fo
+        await ctx.channel.send(embed=embed)
+
+    @guildinfo.error
+    async def guildinfo_Error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.channel.send(
+                f'Please do not spam this command(it gives the same thing mostly)\n You can only use this {error.cooldown.rate} time per {error.cooldown.per} secs, wait {int(error.retry_after)} secs')
+
+    @commands.command(aliases=['uinfo'])
+    @commands.cooldown(1, 20, commands.BucketType.user)
+    async def userinfo(self, ctx, member: commands.MemberConverter = None):
+        if member == None:
+            member = ctx.message.author
+        mem_roles = [role.mention for role in member.roles]
+        embed = discord.Embed(title=f"__**User: {member.name} \nDiscriminator: #{member.discriminator}**__",
+                              description=f"**Some info on this user! :smiling_face_with_3_hearts: ** ",
+                              colour=discord.Colour.from_rgb(218, 186, 242))
+        embed.set_footer(text=f"Created account on: {member.created_at.date()}",
+                         icon_url=config.FOOTER_ICON2)
+        embed.set_thumbnail(url=member.avatar.url)
+        embed.set_author(name="author",
+                         url=config.AUTHOR_IMG,
+                         icon_url=config.AUTHOR_ICON)
+        embed.add_field(name="ID", value=f"{member.id}", inline=True)
+        embed.add_field(name="Nickname", value=f"{member.nick}", inline=True)
+        embed.add_field(name="Presence", value=f"{member.status}", inline=True)
+        if (member.activity == None):
+            embed.add_field(name="Game/Status", value=f"{member.activity}/No activity is shown", inline=True)
+        elif (member.activity != None):
+            if (member.activity.name == "Spotify"):
+                embed.add_field(name="Game/Status",
+                                value=f"{member.activity.name} listening to:"
+                                      f" \n {member.activities[0].title} \n by {member.activities[0].artist} ",
+                                inline=True)
+            else:
+                embed.add_field(name="Game/Status", value=f"{member.activity.name}", inline=True)
+        embed.add_field(name="Mention", value=f"{member.mention}", inline=True)
+        embed.add_field(name=f"Roles", value='\n'.join([elem for elem in mem_roles]),
+                        inline=True)  # f"{len(bot_list)} Bots"
+        embed.add_field(name="Joined server on", value=f"{member.joined_at}", inline=True)
+        await ctx.channel.send(embed=embed)
+
+    @userinfo.error
+    async def userinfo_Error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.channel.send(
+                f'Please do not spam this command(it gives the same thing mostly)\n You can only use this {error.cooldown.rate} time per {error.cooldown.per} secs, wait {int(error.retry_after)} secs')
+
+    @commands.command(aliases=['sinfo', 'spotify'])
+    @commands.cooldown(2, 20, commands.BucketType.user)
+    async def spotifyinfo(self, ctx, member: commands.MemberConverter = None):
+        member = ctx.author if member is None else member
+        act_names = []
+        sindex = -1
+        song_duration_msg = random.randint(0, 1)
+        for ind in range(0, len(member.activities)):
+            act_names.append(member.activities[ind].name)
+            if (member.activities[ind].name == 'Spotify'):
+                sindex = ind
+        if (sindex == -1):
+            await ctx.send(f'{member.name} is currently not listening to spotify')
+            return
+        embed = discord.Embed(title=f"__**Spotify Info for User: {member.name}#{member.discriminator}**__",
+                              colour=member.activities[sindex].color)
+        embed.set_footer(text=f"Member ID: {member.id}",
+                         icon_url=config.FOOTER_ICON)
+        embed.set_thumbnail(url=member.activities[sindex].album_cover_url)
+        embed.add_field(name="Album & Song",
+                        value=f"__**Album:**__ {member.activities[sindex].album}\n __**Song:**__ {member.activities[sindex].title}",
+                        inline=True)
+        embed.add_field(name="Artists", value=f"{member.activities[sindex].artist}", inline=True)
+        embed.add_field(name="Song ID", value=f"{member.activities[sindex].track_id}", inline=True)
+        dur = str(member.activities[sindex].duration).split(".")[0]
+        embed.add_field(name="Song length", value=f"__{dur}__", inline=True)
+        if song_duration_msg == 0:
+            current_time = member.activities[sindex].start.now(tz=datetime.timezone.utc) - member.activities[sindex].start
+            current_time = str(current_time).split(".")[0]
+            embed.add_field(name="Currently at", value=f"__{current_time}__ Of __{dur}__", inline=True)
+        else:
+            remaining_time = member.activities[sindex].end - member.activities[sindex].end.now(tz=datetime.timezone.utc)
+            remaining_time = str(remaining_time).split(".")[0]
+            embed.add_field(name="Remaining Song Time", value=f"__{remaining_time}__", inline=True)
+        await ctx.send(embed=embed)
+
+    @spotifyinfo.error
+    async def spotify_Error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            await ctx.channel.send(
+                f'Do not spam commands\n You can use this {error.cooldown.rate} time per {error.cooldown.per} secs, wait {int(error.retry_after)} secs')
 
     # dont ever use this ever especially if you change line 27 to offline(breaks replit maybe comp also)
     # @bot.command()
