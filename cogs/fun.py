@@ -55,29 +55,18 @@ class Fun(commands.Cog):
 
     @commands.command(aliases=['m8', '8ball'])
     async def magik8(self, ctx, *, message):
-        mag8 = random.randint(0, 7)
-        if mag8 == 1:
-            await ctx.reply('Yes')
-        elif mag8 == 2:
-            await ctx.reply('No')
-        elif mag8 == 3:
-            await ctx.reply('100%')
-        elif mag8 == 4:
-            await ctx.reply('0%')
-        elif mag8 == 5:
-            await ctx.reply('Maybe')
-        elif mag8 == 6:
-            await ctx.reply('not too sure')
-        else:
-            await ctx.reply('Why are you asking me you know the answer')
+        reply_msgs = {0: 'Yes', 1: 'No', 2: '100%', 3: '0%', 4: 'Maybe', 5: 'not too sure',
+         6: 'Why are you asking me you know the answer', 7: 'Try again', 8: 'Ask again later',
+         9: 'Most likely', 10: 'This question is too complex'}
+        print(len(reply_msgs))
+        mag8 = random.randint(0, len(reply_msgs))
+        await ctx.reply(reply_msgs[mag8])
 
     @magik8.error
     async def magik8_error(self, ctx, error):
         if isinstance(error, commands.MissingRequiredArgument):
             message = f"you are missing a question to ask the 8 ball"
             await ctx.channel.send(message)
-
-            # show the different uses of ^ and v
 
     @commands.command(aliases=['st'])
     async def strikethrough(self, ctx, *, message):
@@ -91,33 +80,22 @@ class Fun(commands.Cog):
     async def bigtext(self, ctx, *, msg):
         msg = msg.lower()
         mylist = []
-        numdict = {0: 'zero', 1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five', 6: 'six',
-                   7: 'seven', 8: 'eight', 9: 'nine',
+        numdict = {48: 'zero', 49: 'one', 50: 'two', 51: 'three', 52: 'four', 53: 'five', 54: 'six',
+                   55: 'seven', 56: 'eight', 57: 'nine',
                    }
+        asciidict = { 32: ' ', 33: ':exclamation:', 35: ':hash:', 42: ':asterisk:',
+                     43: ':heavy_plus_sign:', 45: ':heavy_minus_sign:', 47: ':heavy_division_sign:',
+                   }           
         for char in msg:
-            if (97 <= ord(char) <= 122):
+            if (97 <= ord(char) <= 122): # letters
                 mylist.append(f':regional_indicator_{char}:')
-            elif (48 <= ord(char) <= 57):
-                mylist.append(f':{numdict[(ord(char) - 48)]}:')
-            elif (ord(char) == 33):
-                mylist.append(':exclamation:')
-            elif (ord(char) == 32):
-                mylist.append(' ')
-            elif (ord(char) == 35):
-                mylist.append(':hash:')
-            elif (ord(char) == 42):
-                mylist.append(':asterisk:')
-            elif (ord(char) == 43):
-                mylist.append(':heavy_plus_sign:')
-            elif (ord(char) == 45):
-                mylist.append(':heavy_minus_sign:')
-            elif (ord(char) == 47):
-                mylist.append(':heavy_division_sign:')
+            elif (48 <= ord(char) <= 57): # numbers
+                mylist.append(f':{numdict[(ord(char))]}:')
+            elif(ord(char) in asciidict.keys()): #chars that have emojis
+                mylist.append(asciidict[ord(char)])
             else:
                 mylist.append(':question:')
-        print(mylist)
         msg2 = "".join(mylist)
-        print(msg2)
         await ctx.channel.send(msg2)
 
     @commands.command(aliases=['mc', 't2mc']) #technically anon morse decode isnt needed, reg/anon morse is fine base decode is ok too

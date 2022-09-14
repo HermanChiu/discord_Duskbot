@@ -345,14 +345,5 @@ class Listener(commands.Cog):
         for emoji in self.emojis:
             await message.add_reaction(emoji)
 
-    # @commands.command(aliases=['h3'])
-    # @commands.is_owner()
-    # async def hug3(self, ctx, member: commands.MemberConverter = None):
-    #     if member is None:
-    #         await ctx.channel.send(f'I\'m here to give you a hug {ctx.author.mention}')
-    #     else:
-    #         await ctx.channel.send(f'{ctx.author.mention} gave you a hug {member.mention}')
-
-
 async def setup(bot):
     await bot.add_cog(Listener(bot))

@@ -144,24 +144,6 @@ class Management(commands.Cog):
                 print(ind)
                 role = discord.utils.get(ctx.guild.roles, name=baseroles[ind])
                 await user.add_roles(role)
-        # if str(reaction) == '❤️':
-        #   role = discord.utils.get(ctx.guild.roles, name="rose")
-        #   await user.add_roles(role)
-        # if str(reaction) == '🧡':
-        #   role = discord.utils.get(ctx.guild.roles, name="admin")
-        #   await user.add_roles(role)
-        # if str(reaction) == '💛':
-        #   role = discord.utils.get(ctx.guild.roles, name="str")
-        #   await user.add_roles(role)
-        # if str(reaction) == '💚':
-        #   role = discord.utils.get(ctx.guild.roles, name="luk")
-        #   await user.add_roles(role)
-        # if str(reaction) == '💙':
-        #   role = discord.utils.get(ctx.guild.roles, name="int")
-        #   await user.add_roles(role)
-        # if str(reaction) == '💜':
-        #   role = discord.utils.get(ctx.guild.roles, name="dex")
-        #   await user.add_roles(role)
         await ctx.send(f'you have been given the role __**{role.name}**__', delete_after=60)
 
     @reactroles.error
