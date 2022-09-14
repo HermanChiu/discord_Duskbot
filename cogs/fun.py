@@ -56,8 +56,9 @@ class Fun(commands.Cog):
     @commands.command(aliases=['m8', '8ball'])
     async def magik8(self, ctx, *, message):
         reply_msgs = {0: 'Yes', 1: 'No', 2: '100%', 3: '0%', 4: 'Maybe', 5: 'not too sure',
-         6: 'Why are you asking me you know the answer', 7: 'Try again', 8: 'Ask again later',
-         9: 'Most likely', 10: 'This question is too complex'}
+         6: 'Why are you asking me you know the answer :rolling_eyes:', 7: 'Try again',
+         8: 'Ask me later :sleeping:', 9: 'Most likely', 10: 'Probably not', 
+         11: 'This question is too complex', 12: 'Duh',13: 'Nuh-uh'}
         print(len(reply_msgs))
         mag8 = random.randint(0, len(reply_msgs))
         await ctx.reply(reply_msgs[mag8])
